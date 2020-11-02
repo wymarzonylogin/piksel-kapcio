@@ -1,0 +1,21 @@
+{
+    "name": "wymarzonylogin/piksel-kapcio",
+    "type": "library",
+    "description": "Stupid captcha",
+    "keywords": ["php","captcha"],
+    "homepage": "http://wymarzonylog.in",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Smacznego",
+            "email": "smacznego@wymarzonylog.in",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WymarzonyLogin\\PikselKapcio\\": "src/"
+        }
+    }
+}
+
