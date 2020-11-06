@@ -1,2 +1,2 @@
-# piksel-kapcio
-Most useless captcha ever!
+# Piksel Kapcio
+Captcha, but not really...
