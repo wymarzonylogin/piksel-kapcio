@@ -1,9 +1,9 @@
 {
     "name": "wymarzonylogin/piksel-kapcio",
     "type": "library",
-    "description": "Stupid captcha",
+    "description": "Captcha, but not really",
     "keywords": ["php","captcha"],
-    "homepage": "http://wymarzonylog.in",
+    "homepage": "https://wymarzonylog.in",
     "license": "MIT",
     "authors": [
         {
