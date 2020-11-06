@@ -10,14 +10,17 @@ class ImageGenerator
 {   
     private $config;
     
-    public function __construct(ImageGeneratorConfig $config)
+    public function __construct(?ImageGeneratorConfig $config = null)
     {
+        if (null === $config) {
+            $config = new ImageGeneratorConfig();
+        }
+        
         $this->config = $config;
     }
     
-    public function generateImageData()
+    public function generateImageData(string $text)
     {
-        $text = $this->getText();
         $scale = $this->config->getScale();
         $imageWidth = $scale * (7 * strlen($text));
         $imageHeight = $scale * 7;
@@ -34,24 +37,6 @@ class ImageGenerator
         }
         
         return $image;
-    }
-    
-    private function getText(): string
-    {
-        if ($this->config->getTextGenerationMode() == ImageGeneratorConfig::TEXT_GENERATION_FROM_LIST) {
-            $string = $this->config->getWordsList()[random_int(0, count($this->config->getWordsList()) - 1)];
-        } else {
-            $string = $this->generateRandomString($this->config->getRandomTextLength());
-        }
-
-        return strtoupper($string);
-    }
-    
-    private function generateRandomString(int $length): string
-    {
-        $characterSet = '0123456789abcdefghijklmnopqrstuvwxyz';
-        
-        return substr(str_shuffle($characterSet), 0, $length);
     }
     
     private function generatePixelMapForText(string $text): array
@@ -185,16 +170,22 @@ class ImageGenerator
                 return [14, 17, 15, 1, 14];
             case '.':
                 return [0, 0, 0, 0, 4];
-            case '-':
-                return [0, 0, 31, 0, 0];
             case '+':
                 return [4, 4, 31, 4, 4];
-            case '/':
-                return [1, 2, 4, 8, 16];
+            case '-':
+                return [0, 0, 31, 0, 0];
             case '*':
                 return [21, 14, 4, 14, 21];
+            case '/':
+                return [1, 2, 4, 8, 16];
             case '=':
                 return [0, 31, 0, 31, 0];
+            case '?':
+                return [14, 17, 6, 0, 4];
+            case '(':
+                return [2, 4, 4, 4, 2];
+            case ')':
+                return [8, 4, 4, 4, 8];
             default:
                 return [0, 0, 0, 0, 0];
         }
