@@ -80,7 +80,7 @@ With default configuration, served image would look something like this:
 
 ![serve-image-default](https://wymarzonylog.in/img/github/piksel-kapcio/serve-image-default.png)
 
-### Verify submitted data
+### 3. Verify submitted data
 Below there's an example code for handling form submission. Do not modify code in this package's `ExampleController` - copy the code to your namespace instead and then work on it.
 
 ```php
