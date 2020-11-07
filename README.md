@@ -25,7 +25,36 @@ Typical flow for captchas is as follows:
 - Show captcha image somwhere in or near to the form mentioned above
 - When the user submits the form, there need's to be a check, if code he provided is the one which is solution for image presented to him. If yes, process the form as valid, otherwise, reject submission and show user an error message like "Invalid code".
 
-Luckily you dont need to configure anything. You can see basic usage in [\WymarzonyLogin\PikselKapcio\Controller\ExampleController](https://github.com/wymarzonylogin/piksel-kapcio/blob/master/src/Controller/ExampleController.php) class.
+In other words, you need to take 3 steps to use it:
+1. Create endpoint serving images to user (and also storing generated code text in session)
+2. Modify your form to show image (call endpoint from step 1) and add field for user's solution for captcha (also show there error, if solution is wrong).
+3. Validate submitted user's captcha solution.
+
+### 1. Endpoint serving images
+Here is the example of basic endpoint:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace WymarzonyLogin\PikselKapcio\Controller;
+
+use WymarzonyLogin\PikselKapcio\CodeManager;
+
+class ExampleController
+{
+    public function serveImage()
+    {
+        $codeManager = new CodeManager();
+        $code = $codeManager->generateCode();
+        
+        header('Content-Type: image/png');
+        imagepng($code->getImageData());
+    }
+}
+```
+
+Luckily you dont need to configure anything. You can see basic usage in [\WymarzonyLogin\PikselKapcio\Controller\ExampleController](https://github.com/wymarzonylogin/piksel-kapcio/blob/master/src/Controller/ExampleController.php) class. You can actually use this controller's `serveImage` method  for serving images, if you are fine with default configuration.
 
 ## Configuration
 Coming soon...
