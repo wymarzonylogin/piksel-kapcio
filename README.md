@@ -77,6 +77,32 @@ With default configuration, served image would look something like this:
 ![serve-image-default](https://wymarzonylog.in/img/github/piksel-kapcio/serve-image-default.png)
 
 ### Verify submitted data
+Below there's an example code for handling form submission. Do not modify code in this package's `ExampleController` - copy the code to your namespace instead and then work on it.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace YourApp\Controller;
+
+use WymarzonyLogin\PikselKapcio\CodeManager;
+
+class ExampleController
+{    
+    public function validateSubmittedForm()
+    {
+        $userSolution = $_POST['captcha_solution'];
+        $codeManager = new CodeManager();
+        
+        if ($codeManager->validateCode($userSolution)) {
+            //all good, process the form
+        } else {
+            //invalid captcha solution, show error in form etc.
+        }
+    }
+}
+```
 
 Luckily you dont need to configure anything. You can see basic usage in [\WymarzonyLogin\PikselKapcio\Controller\ExampleController](https://github.com/wymarzonylogin/piksel-kapcio/blob/master/src/Controller/ExampleController.php) class. You can actually use this controller's `serveImage` method  for serving images, if you are fine with default configuration.
 
