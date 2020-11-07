@@ -28,7 +28,7 @@ Typical flow for captchas is as follows:
 In other words, you need to take 3 steps to use it:
 1. Create endpoint serving images to user (and also storing generated code text in session)
 2. Modify your form to show image (call endpoint from step 1) and add field for user's solution for captcha (also show there error, if solution is wrong).
-3. Validate submitted user's captcha solution.
+3. Verify submitted user's captcha solution.
 
 ### 1. Endpoint serving images
 Here is the example of basic endpoint:
@@ -37,7 +37,7 @@ Here is the example of basic endpoint:
 
 declare(strict_types=1);
 
-namespace WymarzonyLogin\PikselKapcio\Controller;
+namespace YourApp\Controller;
 
 use WymarzonyLogin\PikselKapcio\CodeManager;
 
@@ -53,6 +53,30 @@ class ExampleController
     }
 }
 ```
+Let's assume this endpoint is called for `/captcha-image` relative URL in your app.
+### 2. Your form
+```html
+<form>
+	// Here: all your current fields
+	
+	<img src="/captcha-image" />
+	
+	// Here: display error if form was submitted and captcha solution is wrong (how to do it - depends on your templating engine)
+
+	<label>Type in code from image above:</label>
+	<input type="text" name="captcha_solution" />
+
+	// Here: your submit button
+</form>
+```
+
+If you notice that image becomes cached (after first try, same image is served to given user all the time) try appending query string containing some unique parameter to called image serving endopoint's URL.
+
+With default configuration, served image would look something like this:
+
+![serve-image-default](https://wymarzonylog.in/img/github/piksel-kapcio/serve-image-default.png)
+
+### Verify submitted data
 
 Luckily you dont need to configure anything. You can see basic usage in [\WymarzonyLogin\PikselKapcio\Controller\ExampleController](https://github.com/wymarzonylogin/piksel-kapcio/blob/master/src/Controller/ExampleController.php) class. You can actually use this controller's `serveImage` method  for serving images, if you are fine with default configuration.
 
