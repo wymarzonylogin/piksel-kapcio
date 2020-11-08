@@ -45,7 +45,22 @@ class CodeManager
             $text = strtoupper($text);
         }
         
-        return $this->getCodeText() === $text;
+        $isValid = $this->getCodeText() === $text && !empty($this->getCodeText());
+        
+        if ($isValid) {
+            $this->unsetCodeText();
+        }
+        
+        return $isValid;
+    }
+    
+    private function unSetCodeText()
+    {
+        if (!$this->isSessionStarted) {
+            $this->startSession();
+        }
+        
+        unset($_SESSION[$this->sessionKey]);
     }
     
     private function setCodeText(string $text)
@@ -57,14 +72,14 @@ class CodeManager
         $_SESSION[$this->sessionKey] = $text;
     }
     
-    private function getCodeText(): string
+    private function getCodeText(): ?string
     {
         if (!$this->isSessionStarted) {
             $this->startSession();
         }
         
         if (!isset($_SESSION[$this->sessionKey])) {
-            throw new Exception('Session value not set.');
+            return null;
         }
         
         return (string) $_SESSION[$this->sessionKey];
